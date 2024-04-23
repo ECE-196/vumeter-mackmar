@@ -13,7 +13,32 @@ led_pins = [
     board.IO21,
     board.IO26, # type: ignore
     board.IO47,
-    # do the rest...
+    board.IO33,
+    board.IO34,
+    board.IO48,
+    board.IO35,
+    board.IO36,
+    board.IO37,
+    board.IO38,
+    board.IO39
+]
+
+bottom = 10000
+top = 48000
+interval = (top-bottom)/10
+
+baseline = [
+    bottom,
+    bottom + interval,
+    bottom + 2*interval,
+    bottom + 3*interval,
+    bottom + 4*interval,
+    bottom + 5*interval,
+    bottom + 6*interval,
+    bottom + 7*interval,
+    bottom + 8*interval,
+    bottom + 9*interval,
+    bottom + 10*interval
 ]
 
 leds = [DigitalInOut(pin) for pin in led_pins]
@@ -25,13 +50,18 @@ for led in leds:
 while True:
     volume = microphone.value
 
-    print(volume)
+    print((volume,))
 
-    leds[0].value = not leds[0].value
-    leds[1].value = not leds[0].value
+    for n in range(0,11):
+        if volume > baseline[n]:
+            leds[n].value = True
+        else:
+            leds[n].value = False
 
-    sleep(1)
+    sleep(0.1)
 
     # instead of blinking,
     # how can you make the LEDs
     # turn on like a volume meter?
+
+#print("Hello world!")
